@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Container } from '../../styles/GlobalStyles';
 
-export default function Page404() {
+export default function Register() {
   return (
     <Container>
-      <h1>Essa página não existe!</h1>
+      <h1>Cadastro</h1>
     </Container>
   );
 }

@@ -10,7 +10,7 @@ import Header from './components/Header';
 import Routes from './routes';
 import history from './services/history';
 
-function App() {
+export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -24,5 +24,3 @@ function App() {
     </Provider>
   );
 }
-
-export default App;
