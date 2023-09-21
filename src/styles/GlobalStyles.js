@@ -38,7 +38,7 @@ export default createGlobalStyle`
 `;
 
 export const Container = styled.section`
-  width: min(100%, 360px);
+  width: min(100%, 480px);
   background: #ffffff;
   margin: 30px auto;
   padding: 30px;
