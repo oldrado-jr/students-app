@@ -56,7 +56,7 @@ export default function Register() {
       toast.success('Você fez seu cadastro!');
       history.push('/login');
     } catch (error) {
-      const errorsApi = get(error, 'response.data.erros', []);
+      const errorsApi = get(error, 'response.data.errors', []);
       errorsApi.map((err) => toast.error(err));
     }
   };
