@@ -6,7 +6,7 @@ export default (reducers) => {
     {
       key: process.env.REACT_APP_NAME ?? '',
       storage,
-      whitelist: ['example'],
+      whitelist: ['auth'],
     },
     reducers,
   );
