@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import isEmail from 'validator/lib/isEmail';
 import { toast } from 'react-toastify';
-import { get } from 'lodash';
 
 import { Container } from '../../styles/GlobalStyles';
 import Form from './styled';
 import validationData from './validation-info';
-import axios from '../../services/axios';
-import history from '../../services/history';
+import { registerRequested } from '../../store/modules/auth/actions';
 
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const user = useSelector((state) => state.auth.user);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user.id) {
+      return;
+    }
+
+    setName(user.nome);
+    setEmail(user.email);
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setName(name.trim());
+
     const errors = [];
 
     const nameValidation = validationData.name;
@@ -33,37 +47,37 @@ export default function Register() {
     const passwordValidation = validationData.password;
 
     if (
-      password.length < passwordValidation.min ||
-      password.length > passwordValidation.max
+      !user.id &&
+      (password.length < passwordValidation.min ||
+        password.length > passwordValidation.max)
     ) {
       errors.push(passwordValidation.message);
     }
 
     const validatedPassword = password;
-    setPassword('');
+
+    if (password) {
+      setPassword('');
+    }
 
     if (errors.length > 0) {
       errors.map((error) => toast.error(error));
       return;
     }
 
-    try {
-      await axios.post('/users', {
-        nome: name,
+    dispatch(
+      registerRequested({
+        id: user.id,
+        name,
         email,
         password: validatedPassword,
-      });
-      toast.success('Você fez seu cadastro!');
-      history.push('/login');
-    } catch (error) {
-      const errorsApi = get(error, 'response.data.errors', []);
-      errorsApi.map((err) => toast.error(err));
-    }
+      }),
+    );
   };
 
   return (
     <Container>
-      <h1>Crie sua conta</h1>
+      <h1>{user.id ? 'Editar dados' : 'Crie sua conta'}</h1>
       <Form onSubmit={handleSubmit}>
         <label htmlFor="name">
           Nome:
@@ -72,7 +86,7 @@ export default function Register() {
             id="name"
             value={name}
             placeholder="Seu nome"
-            onChange={(e) => setName(e.target.value.trim())}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </label>
@@ -95,10 +109,10 @@ export default function Register() {
             value={password}
             placeholder="Sua senha"
             onChange={(e) => setPassword(e.target.value.trim())}
-            required
+            required={Boolean(!user.id)}
           />
         </label>
-        <button type="submit">Criar minha conta</button>
+        <button type="submit">{user.id ? 'Salvar' : 'Criar conta'}</button>
       </Form>
     </Container>
   );
