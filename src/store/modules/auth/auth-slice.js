@@ -1,27 +1,29 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  isLoggedIn: false,
+  token: '',
+  user: {},
+  isLoading: false,
+};
+
 const loginSlice = createSlice({
   name: 'auth',
-  initialState: {
-    isLoggedIn: false,
-    token: '',
-    user: {},
-    isLoading: false,
-  },
+  initialState,
   reducers: {
     loginSucceeded(state, action) {
-      console.log('Sucesso =D');
+      const { token, user } = action.payload;
+      state.isLoggedIn = true;
+      state.token = token;
+      state.user = user;
     },
     loginFailed(state, action) {
-      console.log('Deu ruim =(');
-    },
-    loginRequested(state, action) {
-      console.log('Reducer', action.payload);
+      state = { ...initialState };
     },
   },
 });
 
-export const { loginSucceeded, loginFailed, loginRequested } =
-  loginSlice.actions;
+export const { loginSucceeded, loginFailed } = loginSlice.actions;
 export default loginSlice.reducer;

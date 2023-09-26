@@ -1,16 +1,17 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 function MyRoute({ component: Component, isClosed, ...rest }) {
-  const isLoggedIn = false;
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   if (isClosed && !isLoggedIn) {
     return (
       <Redirect
         to={{
           pathname: '/login',
-          state: { prevState: rest.location.pathname },
+          state: { prevPath: rest.location.pathname },
         }}
       />
     );

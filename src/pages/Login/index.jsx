@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import isEmail from 'validator/lib/isEmail';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { get } from 'lodash';
 
 import { Container } from '../../styles/GlobalStyles';
 import Form from './styled';
 import validationData from './validation-info';
-import { loginRequested } from '../../store/modules/auth/auth-slice';
+import { loginRequested } from '../../store/modules/auth/actions';
 
-export default function Login() {
+export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+
+  const prevPath = get(props, 'location.state.prevPath', '/');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,10 +44,7 @@ export default function Login() {
       return;
     }
 
-    dispatch({
-      type: loginRequested.type,
-      payload: { email, password: validatedPassword },
-    });
+    dispatch(loginRequested({ email, password: validatedPassword, prevPath }));
   };
 
   return (
