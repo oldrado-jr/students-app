@@ -13,6 +13,17 @@ const Nav = styled.nav`
     color: #ffffff;
     font-weight: bold;
   }
+
+  button {
+    padding: 0;
+    background: initial;
+    transition: none;
+    border-radius: none;
+
+    &:hover {
+      filter: none;
+    }
+  }
 `;
 
 export default Nav;
