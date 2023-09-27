@@ -6,6 +6,7 @@ import { FaEdit, FaUserCircle, FaWindowClose } from 'react-icons/fa';
 import { Container } from '../../styles/GlobalStyles';
 import axios from '../../services/axios';
 import { StudentContainer, ProfilePhoto } from './styled';
+import { primaryColor } from '../../config/colors';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -38,8 +39,8 @@ export default function Students() {
             <span>{student.nome}</span>
             <span>{student.email}</span>
 
-            <FaEdit size={16} />
-            <FaWindowClose size={16} />
+            <FaEdit size={16} color={primaryColor} />
+            <FaWindowClose size={16} color={primaryColor} />
           </li>
         ))}
       </StudentContainer>
