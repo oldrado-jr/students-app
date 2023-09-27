@@ -2,6 +2,8 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 
+import axios from '../../../services/axios';
+
 const loginSlice = createSlice({
   name: 'auth',
   initialState: {
@@ -17,6 +19,7 @@ const loginSlice = createSlice({
       state.user = user;
     },
     loginFailed(state, action) {
+      delete axios.defaults.headers.Authorization;
       state.isLoggedIn = false;
       state.token = '';
       state.user = {};
