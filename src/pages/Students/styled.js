@@ -3,14 +3,14 @@ import styled from 'styled-components';
 export const StudentContainer = styled.ul`
   margin-top: 20px;
 
-  div {
+  li {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 5px 0;
   }
 
-  div + div {
+  li + li {
     border-top: 1px solid #eeeeee;
   }
 `;
