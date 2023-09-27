@@ -2,15 +2,13 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  isLoggedIn: false,
-  token: '',
-  user: {},
-};
-
 const loginSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: {
+    isLoggedIn: false,
+    token: '',
+    user: {},
+  },
   reducers: {
     loginSucceeded(state, action) {
       const { token, user } = action.payload;
@@ -19,7 +17,9 @@ const loginSlice = createSlice({
       state.user = user;
     },
     loginFailed(state, action) {
-      state = { ...initialState };
+      state.isLoggedIn = false;
+      state.token = '';
+      state.user = {};
     },
     registerSucceeded(state, action) {
       const { name, email } = action.payload;
