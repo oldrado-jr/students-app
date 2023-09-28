@@ -18,16 +18,6 @@ function* loginRequest({ payload }) {
   }
 }
 
-function persistRehydrate({ payload }) {
-  const token = get(payload, 'auth.token', '');
-
-  if (!token) {
-    return;
-  }
-
-  axios.defaults.headers.Authorization = `Bearer ${token}`;
-}
-
 function* registerRequested({ payload }) {
   const { id, name, email, password } = payload;
   const payloadApi = {
@@ -71,5 +61,4 @@ function* registerRequested({ payload }) {
 export default all([
   takeLatest(types.AUTH_LOGIN_REQUESTED, loginRequest),
   takeLatest(types.AUTH_REGISTER_REQUESTED, registerRequested),
-  takeLatest(types.PERSIST_REHYDRATE, persistRehydrate),
 ]);

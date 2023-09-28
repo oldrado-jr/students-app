@@ -14,6 +14,7 @@ const loginSlice = createSlice({
   reducers: {
     loginSucceeded(state, action) {
       const { token, user } = action.payload;
+      axios.defaults.headers.Authorization = `Bearer ${token}`;
       state.isLoggedIn = true;
       state.token = token;
       state.user = user;
