@@ -7,10 +7,11 @@ import {
   FaWindowClose,
   FaExclamation,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import { Container } from '../../styles/GlobalStyles';
 import axios from '../../services/axios';
-import { StudentContainer, ProfilePhoto } from './styled';
+import { StudentContainer, ProfilePhoto, NewStudent } from './styled';
 import { primaryColor } from '../../config/colors';
 
 export default function Students() {
@@ -57,6 +58,7 @@ export default function Students() {
   return (
     <Container>
       <h1>Alunos</h1>
+      <NewStudent to="/student">Novo Aluno</NewStudent>
       <StudentContainer>
         {students.map((student, index) => (
           <li key={String(student.id)}>
@@ -71,7 +73,9 @@ export default function Students() {
             <span>{student.nome}</span>
             <span>{student.email}</span>
 
-            <FaEdit size={16} color={primaryColor} cursor="pointer" />
+            <Link to={`/student/${student.id}`}>
+              <FaEdit size={16} />
+            </Link>
             <FaWindowClose
               onClick={handleDeleteConfirmation}
               size={16}
