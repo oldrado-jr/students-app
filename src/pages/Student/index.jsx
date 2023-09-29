@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { isEmail, isInt, isFloat } from 'validator';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { FaUserCircle, FaEdit } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import { Container } from '../../styles/GlobalStyles';
-import Form from './styled';
+import { Form, ProfilePicture, Title } from './styled';
 import validationData from './validation-info';
 import axios from '../../services/axios';
 import history from '../../services/history';
@@ -20,6 +22,7 @@ export default function Student({ match }) {
   const [age, setAge] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
+  const [photo, setPhoto] = useState('');
 
   const dispatch = useDispatch();
 
@@ -31,6 +34,7 @@ export default function Student({ match }) {
     (async () => {
       try {
         const { data } = await axios.get(`/alunos/${id}`);
+        const foto = get(data, 'Fotos[0].url', '');
 
         setFirstName(data.nome);
         setLastName(data.sobrenome);
@@ -38,6 +42,7 @@ export default function Student({ match }) {
         setAge(data.idade);
         setWeight(data.peso);
         setHeight(data.altura);
+        setPhoto(foto);
       } catch (error) {
         const status = get(error, 'response.status', 0);
         const errorsApi = get(error, 'response.data.errors', []);
@@ -147,7 +152,19 @@ export default function Student({ match }) {
 
   return (
     <Container>
-      <h1>{id ? 'Editar Aluno' : 'Novo Aluno'}</h1>
+      <Title>{id ? 'Editar Aluno' : 'Novo Aluno'}</Title>
+      {id && (
+        <ProfilePicture>
+          {photo ? (
+            <img src={photo} alt={firstName} />
+          ) : (
+            <FaUserCircle size={180} />
+          )}
+          <Link to={`/student/${id}/photos`}>
+            <FaEdit size={24} />
+          </Link>
+        </ProfilePicture>
+      )}
       <Form onSubmit={handleSubmit}>
         <input
           type="text"
