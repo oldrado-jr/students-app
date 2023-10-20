@@ -153,7 +153,7 @@ export default function Student({ match }) {
   return (
     <Container>
       <Title>{id ? 'Editar Aluno' : 'Novo Aluno'}</Title>
-      {id && (
+      {id > 0 && (
         <ProfilePicture>
           {photo ? (
             <img src={photo} alt={firstName} />
